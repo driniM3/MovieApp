@@ -1,0 +1,759 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="MovieAppDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Actors">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="AspNetRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserRoles">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="RoleId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar(max)" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
+          <Property Name="Discriminator" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Episodes">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="feature_id" Type="int" Nullable="false" />
+          <Property Name="season" Type="int" />
+          <Property Name="episode" Type="int" />
+          <Property Name="title" Type="int" />
+          <Property Name="plot" Type="varchar(max)" />
+          <Property Name="rating" Type="decimal" Precision="4" Scale="2" />
+          <Property Name="imdb_id" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="FeatureActorsLookup">
+          <Key>
+            <PropertyRef Name="movie_id" />
+            <PropertyRef Name="actor_id" />
+          </Key>
+          <Property Name="movie_id" Type="int" Nullable="false" />
+          <Property Name="actor_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FeatureGenresLookup">
+          <Key>
+            <PropertyRef Name="movie_id" />
+            <PropertyRef Name="genre_id" />
+          </Key>
+          <Property Name="movie_id" Type="int" Nullable="false" />
+          <Property Name="genre_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Features">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="feature_status_id" Type="int" Nullable="false" />
+          <Property Name="type_id" Type="int" Nullable="false" />
+          <Property Name="title" Type="varchar" MaxLength="100" />
+          <Property Name="year" Type="int" />
+          <Property Name="run_time" Type="varchar" MaxLength="50" />
+          <Property Name="genre" Type="varchar" MaxLength="100" />
+          <Property Name="director" Type="varchar" MaxLength="100" />
+          <Property Name="actors" Type="varchar" MaxLength="500" />
+          <Property Name="plot" Type="varchar" MaxLength="500" />
+          <Property Name="poster_url" Type="varchar" MaxLength="500" />
+          <Property Name="rating" Type="decimal" Precision="4" Scale="2" />
+          <Property Name="imdb_id" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Genres">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Statuses">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Types">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="UserFeatureInfo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user_id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="feature_id" Type="int" Nullable="false" />
+          <Property Name="episode_id" Type="int" Nullable="false" />
+          <Property Name="status_id" Type="int" Nullable="false" />
+          <Property Name="my_rating" Type="int" />
+          <Property Name="file_path" Type="varchar" MaxLength="500" />
+          <Property Name="on_disk" Type="bit" />
+        </EntityType>
+        <Association Name="FK__Episodes__featur__4BAC3F29">
+          <End Role="Features" Type="Self.Features" Multiplicity="1" />
+          <End Role="Episodes" Type="Self.Episodes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Features">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Episodes">
+              <PropertyRef Name="feature_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__FeatureAc__actor__300424B4">
+          <End Role="Actors" Type="Self.Actors" Multiplicity="1" />
+          <End Role="FeatureActorsLookup" Type="Self.FeatureActorsLookup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Actors">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="FeatureActorsLookup">
+              <PropertyRef Name="actor_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__FeatureAc__movie__398D8EEE">
+          <End Role="Features" Type="Self.Features" Multiplicity="1" />
+          <End Role="FeatureActorsLookup" Type="Self.FeatureActorsLookup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Features">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="FeatureActorsLookup">
+              <PropertyRef Name="movie_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__FeatureGe__genre__31EC6D26">
+          <End Role="Genres" Type="Self.Genres" Multiplicity="1" />
+          <End Role="FeatureGenresLookup" Type="Self.FeatureGenresLookup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Genres">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="FeatureGenresLookup">
+              <PropertyRef Name="genre_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__FeatureGe__movie__3A81B327">
+          <End Role="Features" Type="Self.Features" Multiplicity="1" />
+          <End Role="FeatureGenresLookup" Type="Self.FeatureGenresLookup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Features">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="FeatureGenresLookup">
+              <PropertyRef Name="movie_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Features__featur__3D5E1FD2">
+          <End Role="Statuses" Type="Self.Statuses" Multiplicity="1" />
+          <End Role="Features" Type="Self.Features" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Statuses">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Features">
+              <PropertyRef Name="feature_status_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Features__type_i__3B75D760">
+          <End Role="Types" Type="Self.Types" Multiplicity="1" />
+          <End Role="Features" Type="Self.Features" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Types">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Features">
+              <PropertyRef Name="type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserFeatu__episo__0C85DE4D">
+          <End Role="Episodes" Type="Self.Episodes" Multiplicity="1" />
+          <End Role="UserFeatureInfo" Type="Self.UserFeatureInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Episodes">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="UserFeatureInfo">
+              <PropertyRef Name="episode_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserFeatu__featu__0D7A0286">
+          <End Role="Features" Type="Self.Features" Multiplicity="1" />
+          <End Role="UserFeatureInfo" Type="Self.UserFeatureInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Features">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="UserFeatureInfo">
+              <PropertyRef Name="feature_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserFeatu__statu__0E6E26BF">
+          <End Role="Statuses" Type="Self.Statuses" Multiplicity="1" />
+          <End Role="UserFeatureInfo" Type="Self.UserFeatureInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Statuses">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="UserFeatureInfo">
+              <PropertyRef Name="status_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserFeatu__user___0F624AF8">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="UserFeatureInfo" Type="Self.UserFeatureInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserFeatureInfo">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetRoles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MovieAppDBModelStoreContainer">
+          <EntitySet Name="Actors" EntityType="Self.Actors" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Episodes" EntityType="Self.Episodes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FeatureActorsLookup" EntityType="Self.FeatureActorsLookup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FeatureGenresLookup" EntityType="Self.FeatureGenresLookup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Features" EntityType="Self.Features" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Genres" EntityType="Self.Genres" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Statuses" EntityType="Self.Statuses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Types" EntityType="Self.Types" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserFeatureInfo" EntityType="Self.UserFeatureInfo" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Episodes__featur__4BAC3F29" Association="Self.FK__Episodes__featur__4BAC3F29">
+            <End Role="Features" EntitySet="Features" />
+            <End Role="Episodes" EntitySet="Episodes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__FeatureAc__actor__300424B4" Association="Self.FK__FeatureAc__actor__300424B4">
+            <End Role="Actors" EntitySet="Actors" />
+            <End Role="FeatureActorsLookup" EntitySet="FeatureActorsLookup" />
+          </AssociationSet>
+          <AssociationSet Name="FK__FeatureAc__movie__398D8EEE" Association="Self.FK__FeatureAc__movie__398D8EEE">
+            <End Role="Features" EntitySet="Features" />
+            <End Role="FeatureActorsLookup" EntitySet="FeatureActorsLookup" />
+          </AssociationSet>
+          <AssociationSet Name="FK__FeatureGe__genre__31EC6D26" Association="Self.FK__FeatureGe__genre__31EC6D26">
+            <End Role="Genres" EntitySet="Genres" />
+            <End Role="FeatureGenresLookup" EntitySet="FeatureGenresLookup" />
+          </AssociationSet>
+          <AssociationSet Name="FK__FeatureGe__movie__3A81B327" Association="Self.FK__FeatureGe__movie__3A81B327">
+            <End Role="Features" EntitySet="Features" />
+            <End Role="FeatureGenresLookup" EntitySet="FeatureGenresLookup" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Features__featur__3D5E1FD2" Association="Self.FK__Features__featur__3D5E1FD2">
+            <End Role="Statuses" EntitySet="Statuses" />
+            <End Role="Features" EntitySet="Features" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Features__type_i__3B75D760" Association="Self.FK__Features__type_i__3B75D760">
+            <End Role="Types" EntitySet="Types" />
+            <End Role="Features" EntitySet="Features" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserFeatu__episo__0C85DE4D" Association="Self.FK__UserFeatu__episo__0C85DE4D">
+            <End Role="Episodes" EntitySet="Episodes" />
+            <End Role="UserFeatureInfo" EntitySet="UserFeatureInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserFeatu__featu__0D7A0286" Association="Self.FK__UserFeatu__featu__0D7A0286">
+            <End Role="Features" EntitySet="Features" />
+            <End Role="UserFeatureInfo" EntitySet="UserFeatureInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserFeatu__statu__0E6E26BF" Association="Self.FK__UserFeatu__statu__0E6E26BF">
+            <End Role="Statuses" EntitySet="Statuses" />
+            <End Role="UserFeatureInfo" EntitySet="UserFeatureInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserFeatu__user___0F624AF8" Association="Self.FK__UserFeatu__user___0F624AF8">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="UserFeatureInfo" EntitySet="UserFeatureInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MovieAppDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Actor">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Features" Relationship="Self.FeatureActorsLookup" FromRole="Actors" ToRole="Features" />
+        </EntityType>
+        <EntityType Name="AspNetRole">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Discriminator" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="UserFeatureInfoes" Relationship="Self.FK__UserFeatu__user___0F624AF8" FromRole="AspNetUsers" ToRole="UserFeatureInfo" />
+          <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+        </EntityType>
+        <EntityType Name="Episode">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="feature_id" Type="Int32" Nullable="false" />
+          <Property Name="season" Type="Int32" />
+          <Property Name="episode1" Type="Int32" />
+          <Property Name="title" Type="Int32" />
+          <Property Name="plot" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="rating" Type="Decimal" Precision="4" Scale="2" />
+          <Property Name="imdb_id" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Feature" Relationship="Self.FK__Episodes__featur__4BAC3F29" FromRole="Episodes" ToRole="Features" />
+          <NavigationProperty Name="UserFeatureInfoes" Relationship="Self.FK__UserFeatu__episo__0C85DE4D" FromRole="Episodes" ToRole="UserFeatureInfo" />
+        </EntityType>
+        <EntityType Name="Feature">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="feature_status_id" Type="Int32" Nullable="false" />
+          <Property Name="type_id" Type="Int32" Nullable="false" />
+          <Property Name="title" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="year" Type="Int32" />
+          <Property Name="run_time" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="genre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="director" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="actors" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="plot" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="poster_url" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="rating" Type="Decimal" Precision="4" Scale="2" />
+          <Property Name="imdb_id" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Episodes" Relationship="Self.FK__Episodes__featur__4BAC3F29" FromRole="Features" ToRole="Episodes" />
+          <NavigationProperty Name="Status" Relationship="Self.FK__Features__featur__3D5E1FD2" FromRole="Features" ToRole="Statuses" />
+          <NavigationProperty Name="Type" Relationship="Self.FK__Features__type_i__3B75D760" FromRole="Features" ToRole="Types" />
+          <NavigationProperty Name="UserFeatureInfoes" Relationship="Self.FK__UserFeatu__featu__0D7A0286" FromRole="Features" ToRole="UserFeatureInfo" />
+          <NavigationProperty Name="Actors1" Relationship="Self.FeatureActorsLookup" FromRole="Features" ToRole="Actors" />
+          <NavigationProperty Name="Genres" Relationship="Self.FeatureGenresLookup" FromRole="Features" ToRole="Genres" />
+        </EntityType>
+        <EntityType Name="Genre">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Features" Relationship="Self.FeatureGenresLookup" FromRole="Genres" ToRole="Features" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Features" Relationship="Self.FK__Features__featur__3D5E1FD2" FromRole="Statuses" ToRole="Features" />
+          <NavigationProperty Name="UserFeatureInfoes" Relationship="Self.FK__UserFeatu__statu__0E6E26BF" FromRole="Statuses" ToRole="UserFeatureInfo" />
+        </EntityType>
+        <EntityType Name="Type">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Features" Relationship="Self.FK__Features__type_i__3B75D760" FromRole="Types" ToRole="Features" />
+        </EntityType>
+        <EntityType Name="UserFeatureInfo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="feature_id" Type="Int32" Nullable="false" />
+          <Property Name="episode_id" Type="Int32" Nullable="false" />
+          <Property Name="status_id" Type="Int32" Nullable="false" />
+          <Property Name="my_rating" Type="Int32" />
+          <Property Name="file_path" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="on_disk" Type="Boolean" />
+          <NavigationProperty Name="AspNetUser" Relationship="Self.FK__UserFeatu__user___0F624AF8" FromRole="UserFeatureInfo" ToRole="AspNetUsers" />
+          <NavigationProperty Name="Episode" Relationship="Self.FK__UserFeatu__episo__0C85DE4D" FromRole="UserFeatureInfo" ToRole="Episodes" />
+          <NavigationProperty Name="Feature" Relationship="Self.FK__UserFeatu__featu__0D7A0286" FromRole="UserFeatureInfo" ToRole="Features" />
+          <NavigationProperty Name="Status" Relationship="Self.FK__UserFeatu__statu__0E6E26BF" FromRole="UserFeatureInfo" ToRole="Statuses" />
+        </EntityType>
+        <Association Name="FK__UserFeatu__user___0F624AF8">
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1" />
+          <End Role="UserFeatureInfo" Type="Self.UserFeatureInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserFeatureInfo">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Episodes__featur__4BAC3F29">
+          <End Role="Features" Type="Self.Feature" Multiplicity="1" />
+          <End Role="Episodes" Type="Self.Episode" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Features">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Episodes">
+              <PropertyRef Name="feature_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserFeatu__episo__0C85DE4D">
+          <End Role="Episodes" Type="Self.Episode" Multiplicity="1" />
+          <End Role="UserFeatureInfo" Type="Self.UserFeatureInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Episodes">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="UserFeatureInfo">
+              <PropertyRef Name="episode_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Features__featur__3D5E1FD2">
+          <End Role="Statuses" Type="Self.Status" Multiplicity="1" />
+          <End Role="Features" Type="Self.Feature" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Statuses">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Features">
+              <PropertyRef Name="feature_status_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Features__type_i__3B75D760">
+          <End Role="Types" Type="Self.Type" Multiplicity="1" />
+          <End Role="Features" Type="Self.Feature" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Types">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Features">
+              <PropertyRef Name="type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserFeatu__featu__0D7A0286">
+          <End Role="Features" Type="Self.Feature" Multiplicity="1" />
+          <End Role="UserFeatureInfo" Type="Self.UserFeatureInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Features">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="UserFeatureInfo">
+              <PropertyRef Name="feature_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserFeatu__statu__0E6E26BF">
+          <End Role="Statuses" Type="Self.Status" Multiplicity="1" />
+          <End Role="UserFeatureInfo" Type="Self.UserFeatureInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Statuses">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="UserFeatureInfo">
+              <PropertyRef Name="status_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AspNetUserRoles">
+          <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
+        </Association>
+        <Association Name="FeatureActorsLookup">
+          <End Role="Actors" Type="Self.Actor" Multiplicity="*" />
+          <End Role="Features" Type="Self.Feature" Multiplicity="*" />
+        </Association>
+        <Association Name="FeatureGenresLookup">
+          <End Role="Genres" Type="Self.Genre" Multiplicity="*" />
+          <End Role="Features" Type="Self.Feature" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="MovieAppDBContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Actors" EntityType="Self.Actor" />
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRole" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
+          <EntitySet Name="Episodes" EntityType="Self.Episode" />
+          <EntitySet Name="Features" EntityType="Self.Feature" />
+          <EntitySet Name="Genres" EntityType="Self.Genre" />
+          <EntitySet Name="Statuses" EntityType="Self.Status" />
+          <EntitySet Name="Types" EntityType="Self.Type" />
+          <EntitySet Name="UserFeatureInfoes" EntityType="Self.UserFeatureInfo" />
+          <AssociationSet Name="FK__UserFeatu__user___0F624AF8" Association="Self.FK__UserFeatu__user___0F624AF8">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="UserFeatureInfo" EntitySet="UserFeatureInfoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Episodes__featur__4BAC3F29" Association="Self.FK__Episodes__featur__4BAC3F29">
+            <End Role="Features" EntitySet="Features" />
+            <End Role="Episodes" EntitySet="Episodes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserFeatu__episo__0C85DE4D" Association="Self.FK__UserFeatu__episo__0C85DE4D">
+            <End Role="Episodes" EntitySet="Episodes" />
+            <End Role="UserFeatureInfo" EntitySet="UserFeatureInfoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Features__featur__3D5E1FD2" Association="Self.FK__Features__featur__3D5E1FD2">
+            <End Role="Statuses" EntitySet="Statuses" />
+            <End Role="Features" EntitySet="Features" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Features__type_i__3B75D760" Association="Self.FK__Features__type_i__3B75D760">
+            <End Role="Types" EntitySet="Types" />
+            <End Role="Features" EntitySet="Features" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserFeatu__featu__0D7A0286" Association="Self.FK__UserFeatu__featu__0D7A0286">
+            <End Role="Features" EntitySet="Features" />
+            <End Role="UserFeatureInfo" EntitySet="UserFeatureInfoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserFeatu__statu__0E6E26BF" Association="Self.FK__UserFeatu__statu__0E6E26BF">
+            <End Role="Statuses" EntitySet="Statuses" />
+            <End Role="UserFeatureInfo" EntitySet="UserFeatureInfoes" />
+          </AssociationSet>
+          <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FeatureActorsLookup" Association="Self.FeatureActorsLookup">
+            <End Role="Actors" EntitySet="Actors" />
+            <End Role="Features" EntitySet="Features" />
+          </AssociationSet>
+          <AssociationSet Name="FeatureGenresLookup" Association="Self.FeatureGenresLookup">
+            <End Role="Genres" EntitySet="Genres" />
+            <End Role="Features" EntitySet="Features" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MovieAppDBModelStoreContainer" CdmEntityContainer="MovieAppDBContext">
+          <EntitySetMapping Name="Actors">
+            <EntityTypeMapping TypeName="MovieAppDBModel.Actor">
+              <MappingFragment StoreEntitySet="Actors">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetRoles">
+            <EntityTypeMapping TypeName="MovieAppDBModel.AspNetRole">
+              <MappingFragment StoreEntitySet="AspNetRoles">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="MovieAppDBModel.AspNetUser">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="Discriminator" ColumnName="Discriminator" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Episodes">
+            <EntityTypeMapping TypeName="MovieAppDBModel.Episode">
+              <MappingFragment StoreEntitySet="Episodes">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="feature_id" ColumnName="feature_id" />
+                <ScalarProperty Name="season" ColumnName="season" />
+                <ScalarProperty Name="episode1" ColumnName="episode" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="plot" ColumnName="plot" />
+                <ScalarProperty Name="rating" ColumnName="rating" />
+                <ScalarProperty Name="imdb_id" ColumnName="imdb_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Features">
+            <EntityTypeMapping TypeName="MovieAppDBModel.Feature">
+              <MappingFragment StoreEntitySet="Features">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="feature_status_id" ColumnName="feature_status_id" />
+                <ScalarProperty Name="type_id" ColumnName="type_id" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="year" ColumnName="year" />
+                <ScalarProperty Name="run_time" ColumnName="run_time" />
+                <ScalarProperty Name="genre" ColumnName="genre" />
+                <ScalarProperty Name="director" ColumnName="director" />
+                <ScalarProperty Name="actors" ColumnName="actors" />
+                <ScalarProperty Name="plot" ColumnName="plot" />
+                <ScalarProperty Name="poster_url" ColumnName="poster_url" />
+                <ScalarProperty Name="rating" ColumnName="rating" />
+                <ScalarProperty Name="imdb_id" ColumnName="imdb_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Genres">
+            <EntityTypeMapping TypeName="MovieAppDBModel.Genre">
+              <MappingFragment StoreEntitySet="Genres">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Statuses">
+            <EntityTypeMapping TypeName="MovieAppDBModel.Status">
+              <MappingFragment StoreEntitySet="Statuses">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Types">
+            <EntityTypeMapping TypeName="MovieAppDBModel.Type">
+              <MappingFragment StoreEntitySet="Types">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserFeatureInfoes">
+            <EntityTypeMapping TypeName="MovieAppDBModel.UserFeatureInfo">
+              <MappingFragment StoreEntitySet="UserFeatureInfo">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="feature_id" ColumnName="feature_id" />
+                <ScalarProperty Name="episode_id" ColumnName="episode_id" />
+                <ScalarProperty Name="status_id" ColumnName="status_id" />
+                <ScalarProperty Name="my_rating" ColumnName="my_rating" />
+                <ScalarProperty Name="file_path" ColumnName="file_path" />
+                <ScalarProperty Name="on_disk" ColumnName="on_disk" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="AspNetUserRoles" TypeName="MovieAppDBModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+            <EndProperty Name="AspNetRoles">
+              <ScalarProperty Name="Id" ColumnName="RoleId" />
+            </EndProperty>
+            <EndProperty Name="AspNetUsers">
+              <ScalarProperty Name="Id" ColumnName="UserId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FeatureActorsLookup" TypeName="MovieAppDBModel.FeatureActorsLookup" StoreEntitySet="FeatureActorsLookup">
+            <EndProperty Name="Actors">
+              <ScalarProperty Name="id" ColumnName="actor_id" />
+            </EndProperty>
+            <EndProperty Name="Features">
+              <ScalarProperty Name="id" ColumnName="movie_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FeatureGenresLookup" TypeName="MovieAppDBModel.FeatureGenresLookup" StoreEntitySet="FeatureGenresLookup">
+            <EndProperty Name="Genres">
+              <ScalarProperty Name="id" ColumnName="genre_id" />
+            </EndProperty>
+            <EndProperty Name="Features">
+              <ScalarProperty Name="id" ColumnName="movie_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

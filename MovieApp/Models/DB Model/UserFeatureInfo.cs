@@ -17,8 +17,8 @@ namespace MovieApp.Models.DB_Model
         public int id { get; set; }
         public string user_id { get; set; }
         public int feature_id { get; set; }
-        public int episode_id { get; set; }
-        public int status_id { get; set; }
+        public Nullable<int> episode_id { get; set; }
+        public Nullable<int> status_id { get; set; }
         public Nullable<int> my_rating { get; set; }
         public string file_path { get; set; }
         public Nullable<bool> on_disk { get; set; }

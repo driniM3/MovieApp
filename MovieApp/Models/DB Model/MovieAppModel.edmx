@@ -16,7 +16,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="AspNetUserRoles">
@@ -25,7 +25,7 @@
             <PropertyRef Name="RoleId" />
           </Key>
           <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="RoleId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="RoleId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="AspNetUsers">
           <Key>
@@ -76,9 +76,7 @@
           <Property Name="title" Type="varchar" MaxLength="100" />
           <Property Name="year" Type="int" />
           <Property Name="run_time" Type="varchar" MaxLength="50" />
-          <Property Name="genre" Type="varchar" MaxLength="100" />
           <Property Name="director" Type="varchar" MaxLength="100" />
-          <Property Name="actors" Type="varchar" MaxLength="500" />
           <Property Name="plot" Type="varchar" MaxLength="500" />
           <Property Name="poster_url" Type="varchar" MaxLength="500" />
           <Property Name="rating" Type="decimal" Precision="4" Scale="2" />
@@ -112,13 +110,13 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="user_id" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="feature_id" Type="int" Nullable="false" />
-          <Property Name="episode_id" Type="int" Nullable="false" />
-          <Property Name="status_id" Type="int" Nullable="false" />
+          <Property Name="episode_id" Type="int" />
+          <Property Name="status_id" Type="int" />
           <Property Name="my_rating" Type="int" />
           <Property Name="file_path" Type="varchar" MaxLength="500" />
           <Property Name="on_disk" Type="bit" />
         </EntityType>
-        <Association Name="FK__Episodes__featur__4BAC3F29">
+        <Association Name="FK__Episodes__featur__2DE6D218">
           <End Role="Features" Type="Self.Features" Multiplicity="1" />
           <End Role="Episodes" Type="Self.Episodes" Multiplicity="*" />
           <ReferentialConstraint>
@@ -142,7 +140,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__FeatureAc__movie__398D8EEE">
+        <Association Name="FK__FeatureAc__movie__2A164134">
           <End Role="Features" Type="Self.Features" Multiplicity="1" />
           <End Role="FeatureActorsLookup" Type="Self.FeatureActorsLookup" Multiplicity="*" />
           <ReferentialConstraint>
@@ -166,7 +164,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__FeatureGe__movie__3A81B327">
+        <Association Name="FK__FeatureGe__movie__2B0A656D">
           <End Role="Features" Type="Self.Features" Multiplicity="1" />
           <End Role="FeatureGenresLookup" Type="Self.FeatureGenresLookup" Multiplicity="*" />
           <ReferentialConstraint>
@@ -178,7 +176,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Features__featur__3D5E1FD2">
+        <Association Name="FK__Features__featur__2CF2ADDF">
           <End Role="Statuses" Type="Self.Statuses" Multiplicity="1" />
           <End Role="Features" Type="Self.Features" Multiplicity="*" />
           <ReferentialConstraint>
@@ -190,7 +188,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Features__type_i__3B75D760">
+        <Association Name="FK__Features__type_i__2BFE89A6">
           <End Role="Types" Type="Self.Types" Multiplicity="1" />
           <End Role="Features" Type="Self.Features" Multiplicity="*" />
           <ReferentialConstraint>
@@ -202,8 +200,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__UserFeatu__episo__0C85DE4D">
-          <End Role="Episodes" Type="Self.Episodes" Multiplicity="1" />
+        <Association Name="FK__UserFeatu__episo__46B27FE2">
+          <End Role="Episodes" Type="Self.Episodes" Multiplicity="0..1" />
           <End Role="UserFeatureInfo" Type="Self.UserFeatureInfo" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Episodes">
@@ -214,7 +212,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__UserFeatu__featu__0D7A0286">
+        <Association Name="FK__UserFeatu__featu__29221CFB">
           <End Role="Features" Type="Self.Features" Multiplicity="1" />
           <End Role="UserFeatureInfo" Type="Self.UserFeatureInfo" Multiplicity="*" />
           <ReferentialConstraint>
@@ -226,8 +224,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__UserFeatu__statu__0E6E26BF">
-          <End Role="Statuses" Type="Self.Statuses" Multiplicity="1" />
+        <Association Name="FK__UserFeatu__statu__47A6A41B">
+          <End Role="Statuses" Type="Self.Statuses" Multiplicity="0..1" />
           <End Role="UserFeatureInfo" Type="Self.UserFeatureInfo" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Statuses">
@@ -291,7 +289,7 @@
           <EntitySet Name="Statuses" EntityType="Self.Statuses" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Types" EntityType="Self.Types" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserFeatureInfo" EntityType="Self.UserFeatureInfo" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Episodes__featur__4BAC3F29" Association="Self.FK__Episodes__featur__4BAC3F29">
+          <AssociationSet Name="FK__Episodes__featur__2DE6D218" Association="Self.FK__Episodes__featur__2DE6D218">
             <End Role="Features" EntitySet="Features" />
             <End Role="Episodes" EntitySet="Episodes" />
           </AssociationSet>
@@ -299,7 +297,7 @@
             <End Role="Actors" EntitySet="Actors" />
             <End Role="FeatureActorsLookup" EntitySet="FeatureActorsLookup" />
           </AssociationSet>
-          <AssociationSet Name="FK__FeatureAc__movie__398D8EEE" Association="Self.FK__FeatureAc__movie__398D8EEE">
+          <AssociationSet Name="FK__FeatureAc__movie__2A164134" Association="Self.FK__FeatureAc__movie__2A164134">
             <End Role="Features" EntitySet="Features" />
             <End Role="FeatureActorsLookup" EntitySet="FeatureActorsLookup" />
           </AssociationSet>
@@ -307,27 +305,27 @@
             <End Role="Genres" EntitySet="Genres" />
             <End Role="FeatureGenresLookup" EntitySet="FeatureGenresLookup" />
           </AssociationSet>
-          <AssociationSet Name="FK__FeatureGe__movie__3A81B327" Association="Self.FK__FeatureGe__movie__3A81B327">
+          <AssociationSet Name="FK__FeatureGe__movie__2B0A656D" Association="Self.FK__FeatureGe__movie__2B0A656D">
             <End Role="Features" EntitySet="Features" />
             <End Role="FeatureGenresLookup" EntitySet="FeatureGenresLookup" />
           </AssociationSet>
-          <AssociationSet Name="FK__Features__featur__3D5E1FD2" Association="Self.FK__Features__featur__3D5E1FD2">
+          <AssociationSet Name="FK__Features__featur__2CF2ADDF" Association="Self.FK__Features__featur__2CF2ADDF">
             <End Role="Statuses" EntitySet="Statuses" />
             <End Role="Features" EntitySet="Features" />
           </AssociationSet>
-          <AssociationSet Name="FK__Features__type_i__3B75D760" Association="Self.FK__Features__type_i__3B75D760">
+          <AssociationSet Name="FK__Features__type_i__2BFE89A6" Association="Self.FK__Features__type_i__2BFE89A6">
             <End Role="Types" EntitySet="Types" />
             <End Role="Features" EntitySet="Features" />
           </AssociationSet>
-          <AssociationSet Name="FK__UserFeatu__episo__0C85DE4D" Association="Self.FK__UserFeatu__episo__0C85DE4D">
+          <AssociationSet Name="FK__UserFeatu__episo__46B27FE2" Association="Self.FK__UserFeatu__episo__46B27FE2">
             <End Role="Episodes" EntitySet="Episodes" />
             <End Role="UserFeatureInfo" EntitySet="UserFeatureInfo" />
           </AssociationSet>
-          <AssociationSet Name="FK__UserFeatu__featu__0D7A0286" Association="Self.FK__UserFeatu__featu__0D7A0286">
+          <AssociationSet Name="FK__UserFeatu__featu__29221CFB" Association="Self.FK__UserFeatu__featu__29221CFB">
             <End Role="Features" EntitySet="Features" />
             <End Role="UserFeatureInfo" EntitySet="UserFeatureInfo" />
           </AssociationSet>
-          <AssociationSet Name="FK__UserFeatu__statu__0E6E26BF" Association="Self.FK__UserFeatu__statu__0E6E26BF">
+          <AssociationSet Name="FK__UserFeatu__statu__47A6A41B" Association="Self.FK__UserFeatu__statu__47A6A41B">
             <End Role="Statuses" EntitySet="Statuses" />
             <End Role="UserFeatureInfo" EntitySet="UserFeatureInfo" />
           </AssociationSet>
@@ -361,7 +359,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="AspNetUsers" Relationship="Self.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
         </EntityType>
@@ -389,8 +387,8 @@
           <Property Name="plot" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="rating" Type="Decimal" Precision="4" Scale="2" />
           <Property Name="imdb_id" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Feature" Relationship="Self.FK__Episodes__featur__4BAC3F29" FromRole="Episodes" ToRole="Features" />
-          <NavigationProperty Name="UserFeatureInfoes" Relationship="Self.FK__UserFeatu__episo__0C85DE4D" FromRole="Episodes" ToRole="UserFeatureInfo" />
+          <NavigationProperty Name="Feature" Relationship="Self.FK__Episodes__featur__2DE6D218" FromRole="Episodes" ToRole="Features" />
+          <NavigationProperty Name="UserFeatureInfoes" Relationship="Self.FK__UserFeatu__episo__46B27FE2" FromRole="Episodes" ToRole="UserFeatureInfo" />
         </EntityType>
         <EntityType Name="Feature">
           <Key>
@@ -402,18 +400,16 @@
           <Property Name="title" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="year" Type="Int32" />
           <Property Name="run_time" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="genre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="director" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="actors" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="plot" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="poster_url" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="rating" Type="Decimal" Precision="4" Scale="2" />
           <Property Name="imdb_id" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Episodes" Relationship="Self.FK__Episodes__featur__4BAC3F29" FromRole="Features" ToRole="Episodes" />
-          <NavigationProperty Name="Status" Relationship="Self.FK__Features__featur__3D5E1FD2" FromRole="Features" ToRole="Statuses" />
-          <NavigationProperty Name="Type" Relationship="Self.FK__Features__type_i__3B75D760" FromRole="Features" ToRole="Types" />
-          <NavigationProperty Name="UserFeatureInfoes" Relationship="Self.FK__UserFeatu__featu__0D7A0286" FromRole="Features" ToRole="UserFeatureInfo" />
-          <NavigationProperty Name="Actors1" Relationship="Self.FeatureActorsLookup" FromRole="Features" ToRole="Actors" />
+          <NavigationProperty Name="Episodes" Relationship="Self.FK__Episodes__featur__2DE6D218" FromRole="Features" ToRole="Episodes" />
+          <NavigationProperty Name="Status" Relationship="Self.FK__Features__featur__2CF2ADDF" FromRole="Features" ToRole="Statuses" />
+          <NavigationProperty Name="Type" Relationship="Self.FK__Features__type_i__2BFE89A6" FromRole="Features" ToRole="Types" />
+          <NavigationProperty Name="UserFeatureInfoes" Relationship="Self.FK__UserFeatu__featu__29221CFB" FromRole="Features" ToRole="UserFeatureInfo" />
+          <NavigationProperty Name="Actors" Relationship="Self.FeatureActorsLookup" FromRole="Features" ToRole="Actors" />
           <NavigationProperty Name="Genres" Relationship="Self.FeatureGenresLookup" FromRole="Features" ToRole="Genres" />
         </EntityType>
         <EntityType Name="Genre">
@@ -430,8 +426,8 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Features" Relationship="Self.FK__Features__featur__3D5E1FD2" FromRole="Statuses" ToRole="Features" />
-          <NavigationProperty Name="UserFeatureInfoes" Relationship="Self.FK__UserFeatu__statu__0E6E26BF" FromRole="Statuses" ToRole="UserFeatureInfo" />
+          <NavigationProperty Name="Features" Relationship="Self.FK__Features__featur__2CF2ADDF" FromRole="Statuses" ToRole="Features" />
+          <NavigationProperty Name="UserFeatureInfoes" Relationship="Self.FK__UserFeatu__statu__47A6A41B" FromRole="Statuses" ToRole="UserFeatureInfo" />
         </EntityType>
         <EntityType Name="Type">
           <Key>
@@ -439,7 +435,7 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Features" Relationship="Self.FK__Features__type_i__3B75D760" FromRole="Types" ToRole="Features" />
+          <NavigationProperty Name="Features" Relationship="Self.FK__Features__type_i__2BFE89A6" FromRole="Types" ToRole="Features" />
         </EntityType>
         <EntityType Name="UserFeatureInfo">
           <Key>
@@ -448,15 +444,15 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="user_id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="feature_id" Type="Int32" Nullable="false" />
-          <Property Name="episode_id" Type="Int32" Nullable="false" />
-          <Property Name="status_id" Type="Int32" Nullable="false" />
+          <Property Name="episode_id" Type="Int32" />
+          <Property Name="status_id" Type="Int32" />
           <Property Name="my_rating" Type="Int32" />
           <Property Name="file_path" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="on_disk" Type="Boolean" />
           <NavigationProperty Name="AspNetUser" Relationship="Self.FK__UserFeatu__user___0F624AF8" FromRole="UserFeatureInfo" ToRole="AspNetUsers" />
-          <NavigationProperty Name="Episode" Relationship="Self.FK__UserFeatu__episo__0C85DE4D" FromRole="UserFeatureInfo" ToRole="Episodes" />
-          <NavigationProperty Name="Feature" Relationship="Self.FK__UserFeatu__featu__0D7A0286" FromRole="UserFeatureInfo" ToRole="Features" />
-          <NavigationProperty Name="Status" Relationship="Self.FK__UserFeatu__statu__0E6E26BF" FromRole="UserFeatureInfo" ToRole="Statuses" />
+          <NavigationProperty Name="Episode" Relationship="Self.FK__UserFeatu__episo__46B27FE2" FromRole="UserFeatureInfo" ToRole="Episodes" />
+          <NavigationProperty Name="Feature" Relationship="Self.FK__UserFeatu__featu__29221CFB" FromRole="UserFeatureInfo" ToRole="Features" />
+          <NavigationProperty Name="Status" Relationship="Self.FK__UserFeatu__statu__47A6A41B" FromRole="UserFeatureInfo" ToRole="Statuses" />
         </EntityType>
         <Association Name="FK__UserFeatu__user___0F624AF8">
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1" />
@@ -470,7 +466,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Episodes__featur__4BAC3F29">
+        <Association Name="FK__Episodes__featur__2DE6D218">
           <End Role="Features" Type="Self.Feature" Multiplicity="1" />
           <End Role="Episodes" Type="Self.Episode" Multiplicity="*" />
           <ReferentialConstraint>
@@ -482,8 +478,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__UserFeatu__episo__0C85DE4D">
-          <End Role="Episodes" Type="Self.Episode" Multiplicity="1" />
+        <Association Name="FK__UserFeatu__episo__46B27FE2">
+          <End Role="Episodes" Type="Self.Episode" Multiplicity="0..1" />
           <End Role="UserFeatureInfo" Type="Self.UserFeatureInfo" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Episodes">
@@ -494,7 +490,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Features__featur__3D5E1FD2">
+        <Association Name="FK__Features__featur__2CF2ADDF">
           <End Role="Statuses" Type="Self.Status" Multiplicity="1" />
           <End Role="Features" Type="Self.Feature" Multiplicity="*" />
           <ReferentialConstraint>
@@ -506,7 +502,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Features__type_i__3B75D760">
+        <Association Name="FK__Features__type_i__2BFE89A6">
           <End Role="Types" Type="Self.Type" Multiplicity="1" />
           <End Role="Features" Type="Self.Feature" Multiplicity="*" />
           <ReferentialConstraint>
@@ -518,7 +514,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__UserFeatu__featu__0D7A0286">
+        <Association Name="FK__UserFeatu__featu__29221CFB">
           <End Role="Features" Type="Self.Feature" Multiplicity="1" />
           <End Role="UserFeatureInfo" Type="Self.UserFeatureInfo" Multiplicity="*" />
           <ReferentialConstraint>
@@ -530,8 +526,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__UserFeatu__statu__0E6E26BF">
-          <End Role="Statuses" Type="Self.Status" Multiplicity="1" />
+        <Association Name="FK__UserFeatu__statu__47A6A41B">
+          <End Role="Statuses" Type="Self.Status" Multiplicity="0..1" />
           <End Role="UserFeatureInfo" Type="Self.UserFeatureInfo" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Statuses">
@@ -554,7 +550,7 @@
           <End Role="Genres" Type="Self.Genre" Multiplicity="*" />
           <End Role="Features" Type="Self.Feature" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="MovieAppDBContext" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="MovieAppDBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Actors" EntityType="Self.Actor" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRole" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
@@ -568,27 +564,27 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="UserFeatureInfo" EntitySet="UserFeatureInfoes" />
           </AssociationSet>
-          <AssociationSet Name="FK__Episodes__featur__4BAC3F29" Association="Self.FK__Episodes__featur__4BAC3F29">
+          <AssociationSet Name="FK__Episodes__featur__2DE6D218" Association="Self.FK__Episodes__featur__2DE6D218">
             <End Role="Features" EntitySet="Features" />
             <End Role="Episodes" EntitySet="Episodes" />
           </AssociationSet>
-          <AssociationSet Name="FK__UserFeatu__episo__0C85DE4D" Association="Self.FK__UserFeatu__episo__0C85DE4D">
+          <AssociationSet Name="FK__UserFeatu__episo__46B27FE2" Association="Self.FK__UserFeatu__episo__46B27FE2">
             <End Role="Episodes" EntitySet="Episodes" />
             <End Role="UserFeatureInfo" EntitySet="UserFeatureInfoes" />
           </AssociationSet>
-          <AssociationSet Name="FK__Features__featur__3D5E1FD2" Association="Self.FK__Features__featur__3D5E1FD2">
+          <AssociationSet Name="FK__Features__featur__2CF2ADDF" Association="Self.FK__Features__featur__2CF2ADDF">
             <End Role="Statuses" EntitySet="Statuses" />
             <End Role="Features" EntitySet="Features" />
           </AssociationSet>
-          <AssociationSet Name="FK__Features__type_i__3B75D760" Association="Self.FK__Features__type_i__3B75D760">
+          <AssociationSet Name="FK__Features__type_i__2BFE89A6" Association="Self.FK__Features__type_i__2BFE89A6">
             <End Role="Types" EntitySet="Types" />
             <End Role="Features" EntitySet="Features" />
           </AssociationSet>
-          <AssociationSet Name="FK__UserFeatu__featu__0D7A0286" Association="Self.FK__UserFeatu__featu__0D7A0286">
+          <AssociationSet Name="FK__UserFeatu__featu__29221CFB" Association="Self.FK__UserFeatu__featu__29221CFB">
             <End Role="Features" EntitySet="Features" />
             <End Role="UserFeatureInfo" EntitySet="UserFeatureInfoes" />
           </AssociationSet>
-          <AssociationSet Name="FK__UserFeatu__statu__0E6E26BF" Association="Self.FK__UserFeatu__statu__0E6E26BF">
+          <AssociationSet Name="FK__UserFeatu__statu__47A6A41B" Association="Self.FK__UserFeatu__statu__47A6A41B">
             <End Role="Statuses" EntitySet="Statuses" />
             <End Role="UserFeatureInfo" EntitySet="UserFeatureInfoes" />
           </AssociationSet>
@@ -610,7 +606,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="MovieAppDBModelStoreContainer" CdmEntityContainer="MovieAppDBContext">
+        <EntityContainerMapping StorageEntityContainer="MovieAppDBModelStoreContainer" CdmEntityContainer="MovieAppDBEntities">
           <EntitySetMapping Name="Actors">
             <EntityTypeMapping TypeName="MovieAppDBModel.Actor">
               <MappingFragment StoreEntitySet="Actors">
@@ -661,9 +657,7 @@
                 <ScalarProperty Name="title" ColumnName="title" />
                 <ScalarProperty Name="year" ColumnName="year" />
                 <ScalarProperty Name="run_time" ColumnName="run_time" />
-                <ScalarProperty Name="genre" ColumnName="genre" />
                 <ScalarProperty Name="director" ColumnName="director" />
-                <ScalarProperty Name="actors" ColumnName="actors" />
                 <ScalarProperty Name="plot" ColumnName="plot" />
                 <ScalarProperty Name="poster_url" ColumnName="poster_url" />
                 <ScalarProperty Name="rating" ColumnName="rating" />

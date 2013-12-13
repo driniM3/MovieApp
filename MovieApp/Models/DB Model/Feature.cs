@@ -18,7 +18,7 @@ namespace MovieApp.Models.DB_Model
         {
             this.Episodes = new HashSet<Episode>();
             this.UserFeatureInfoes = new HashSet<UserFeatureInfo>();
-            this.Actors1 = new HashSet<Actor>();
+            this.Actors = new HashSet<Actor>();
             this.Genres = new HashSet<Genre>();
         }
     
@@ -28,9 +28,7 @@ namespace MovieApp.Models.DB_Model
         public string title { get; set; }
         public Nullable<int> year { get; set; }
         public string run_time { get; set; }
-        public string genre { get; set; }
         public string director { get; set; }
-        public string actors { get; set; }
         public string plot { get; set; }
         public string poster_url { get; set; }
         public Nullable<decimal> rating { get; set; }
@@ -40,7 +38,7 @@ namespace MovieApp.Models.DB_Model
         public virtual Status Status { get; set; }
         public virtual Type Type { get; set; }
         public virtual ICollection<UserFeatureInfo> UserFeatureInfoes { get; set; }
-        public virtual ICollection<Actor> Actors1 { get; set; }
+        public virtual ICollection<Actor> Actors { get; set; }
         public virtual ICollection<Genre> Genres { get; set; }
     }
 }

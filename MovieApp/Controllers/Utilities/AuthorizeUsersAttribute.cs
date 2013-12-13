@@ -21,7 +21,7 @@ namespace MovieApp.Controllers
                 if (!string.IsNullOrEmpty(Access))
                 {
                     string[] authorizedRoles = Access.Split(',').Select(x => x.Trim()).ToArray();
-                    MovieAppDBContext _db = new MovieAppDBContext();
+                    MovieAppDBEntities _db = new MovieAppDBEntities();
 
                     foreach (string role in authorizedRoles)
                     {

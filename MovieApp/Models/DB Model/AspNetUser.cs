@@ -20,10 +20,10 @@ namespace MovieApp.Models.DB_Model
             this.AspNetRoles = new HashSet<AspNetRole>();
         }
     
-        override public string Id { get; set; }
-        override public string UserName { get; set; }
-        override public string PasswordHash { get; set; }
-        override public string SecurityStamp { get; set; }
+        //public string Id { get; set; }
+        //public string UserName { get; set; }
+        //public string PasswordHash { get; set; }
+        //public string SecurityStamp { get; set; }
         public string Discriminator { get; set; }
     
         public virtual ICollection<UserFeatureInfo> UserFeatureInfoes { get; set; }

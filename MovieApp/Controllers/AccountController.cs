@@ -17,7 +17,7 @@ namespace MovieApp.Controllers
     public class AccountController : Controller
     {
         public AccountController()
-            : this(new UserManager<AspNetUser>(new UserStore<AspNetUser>(new MovieAppDBContext())))
+            : this(new UserManager<AspNetUser>(new UserStore<AspNetUser>(new MovieAppDBEntities())))
         {
         }
 

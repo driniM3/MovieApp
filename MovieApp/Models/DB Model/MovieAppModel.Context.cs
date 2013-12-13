@@ -13,11 +13,11 @@ namespace MovieApp.Models.DB_Model
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-
-    public partial class MovieAppDBContext : IdentityDbContext<AspNetUser>
+    
+    public partial class MovieAppDBEntities : IdentityDbContext
     {
-        public MovieAppDBContext()
-            : base("name=MovieAppDBContext")
+        public MovieAppDBEntities()
+            : base("name=MovieAppDBEntities")
         {
         }
     
